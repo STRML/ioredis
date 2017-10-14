@@ -619,7 +619,7 @@ The arguments passed to the constructor are different from the ones you use to c
 
 ioredis **guarantees** that the node you connected to is always a master even after a failover. When a failover happens, instead of trying to reconnect to the failed node (which will be demoted to slave when it's available again), ioredis will ask sentinels for the new master node and connect to it. All commands sent during the failover are queued and will be executed when the new connection is established so that none of the commands will be lost.
 
-It's possible to connect to a slave instead of a master by specifying the option `role` with the value of `slave` and ioredis will try to connect to a random slave of the specified master, with the guarantee that the connected node is always a slave. If the current node is promoted to master due to a failover, ioredis will disconnect from it and ask the sentinels for another slave node to connect to. 
+It's possible to connect to a slave instead of a master by specifying the option `role` with the value of `slave` and ioredis will try to connect to a random slave of the specified master, with the guarantee that the connected node is always a slave. If the current node is promoted to master due to a failover, ioredis will disconnect from it and ask the sentinels for another slave node to connect to.
 
 If you specify the option `preferredSlaves` along with `role: 'slave'` ioredis will attempt to use this value when selecting the slave from the pool of available slaves. The value of `preferredSlaves` should either be a function that accepts an array of avaiable slaves and returns a single result, or an array of slave values priorities by the lowest `prio` value first with a default value of `1`.
 
@@ -818,6 +818,7 @@ end     | emits after `close` when no more reconnections will be made.
 +node   | emits when a new node is connected.
 -node   | emits when a node is disconnected.
 node error | emits when an error occurs when connecting to a node
+selectSubscriber | emits when the cluster has chosen a subscriber node (pub/sub)
 
 ### Password
 Setting the `password` option to access password-proctected clusters:
